@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class UserInterface {
 
 	public static List<Address> addressbook;
@@ -25,7 +26,7 @@ public class UserInterface {
 				insertIntoAddressBook(input);
 				break;
 			case 2:
-				//editAddress(input);
+				editAddress(input);
 				break;
 			case 3:
 				//deleteContact(input);
@@ -58,6 +59,41 @@ public class UserInterface {
 		Address newAddress = new Address(first_name, last_name, address, city, state, zip, phone_no, email);
 		addressbook.add(newAddress);
 		System.out.println("Address added successfully");
+		printAddressBook();
+	}
+	
+	public static void editAddress(Scanner input) {
+		System.out.println("Enter user details");
+		System.out.println("Enter first name:");
+		String first_name = input.next();
+		System.out.println("Enter last name:");
+		String last_name = input.next();
+
+		System.out.println("Enter new address");
+		String newAddress = input.next();
+		System.out.println("Enter new city:");
+		String newCity = input.next();
+		System.out.println("Enter new state:");
+		String newState = input.next();
+		System.out.println("Enter new zip:");
+		String newZip = input.next();
+
+		boolean userFound = false;
+		for (int i = 0; i < addressbook.size(); i++) {
+			Address currentAddress = addressbook.get(i);
+			if (currentAddress.getFirst_name().equals(first_name) && currentAddress.getLast_name().equals(last_name)) {
+				currentAddress.setAddress(newAddress);
+				currentAddress.setCity(newCity);
+				currentAddress.setState(newState);
+				currentAddress.setZip(newZip);
+				userFound = true;
+				break;
+			}
+		}
+		if (userFound == false)
+			System.out.println("User Not Found");
+		else
+			System.out.println("Address updated for " + first_name + " " + last_name);
 		printAddressBook();
 	}
 
