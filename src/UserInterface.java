@@ -3,13 +3,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class UserInterface {
 
 	public static List<Address> addressbook;
 
 	public static void main(String[] args) {
-	
+
 		Scanner input = new Scanner(System.in);
 		addressbook = new ArrayList<Address>();
 		int choice = 0;
@@ -29,7 +28,7 @@ public class UserInterface {
 				editAddress(input);
 				break;
 			case 3:
-				//deleteContact(input);
+				deleteContact(input);
 				break;
 			default:
 				break;
@@ -61,7 +60,7 @@ public class UserInterface {
 		System.out.println("Address added successfully");
 		printAddressBook();
 	}
-	
+
 	public static void editAddress(Scanner input) {
 		System.out.println("Enter user details");
 		System.out.println("Enter first name:");
@@ -94,6 +93,29 @@ public class UserInterface {
 			System.out.println("User Not Found");
 		else
 			System.out.println("Address updated for " + first_name + " " + last_name);
+		printAddressBook();
+	}
+
+	public static void deleteContact(Scanner input) {
+		System.out.println("Enter user details to delete");
+		System.out.println("Enter first name:");
+		String first_name = input.next();
+		System.out.println("Enter last name:");
+		String last_name = input.next();
+
+		boolean userFound = false;
+		for (int i = 0; i < addressbook.size(); i++) {
+			Address currentAddress = addressbook.get(i);
+			if (currentAddress.getFirst_name().equals(first_name) && currentAddress.getLast_name().equals(last_name)) {
+				addressbook.remove(i);
+				userFound = true;
+				break;
+			}
+		}
+		if (userFound == false)
+			System.out.println("User Not Found");
+		else
+			System.out.println("Address deleted for " + first_name + " " + last_name);
 		printAddressBook();
 	}
 
