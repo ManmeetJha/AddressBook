@@ -31,6 +31,7 @@ public class UserInterface2 {
 				break;
 			case 2:
 				insertIntoAddressBook(input);
+				printAddressBooks();
 				break;
 			case 3:
 				editAddress(input);
@@ -68,6 +69,15 @@ public class UserInterface2 {
 		String first_name = input.next();
 		System.out.println("Enter last name:");
 		String last_name = input.next();
+
+		for (int i = 0; i < addressBook.size(); i++) {
+			Address currentAddress = addressBook.get(i);
+			if (currentAddress.getFirst_name().equals(first_name) && currentAddress.getLast_name().equals(last_name)) {
+				System.out.println("No Duplicate entry allowed");
+				return;
+			}
+		}
+
 		System.out.println("Enter address");
 		String address = input.next();
 		System.out.println("Enter city:");
