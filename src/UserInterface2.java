@@ -57,7 +57,7 @@ public class UserInterface2 {
 				printAddressBooks();
 				break;
 			case 6:
-				//searchInCityStateUsingDictionary(input);
+				searchInCityStateUsingDictionary(input);
 				break;
 			case 7:
 				//countOfPersons(input);
@@ -245,5 +245,33 @@ public class UserInterface2 {
 			return;
 		}
 	}
+
+	public static void searchInCityStateUsingDictionary(Scanner input) {
+		System.out.println("Search by city or state");
+		System.out.println("1. City");
+		System.out.println("2. State");
+		int choice = input.nextInt();
+
+		String searchCity, searchState;
+		if (choice == 1) {
+			System.out.println("Enter city:");
+			searchCity = input.next();
+			// using dictionary
+			Set<String> personName = cityDictionary.keySet();
+			personName.stream().filter(person -> cityDictionary.get(person).equals(searchCity))
+					.forEach(person -> System.out.println(person));
+		}
+		if (choice == 2) {
+			System.out.println("Enter state:");
+			searchState = input.next();
+			// using dictionary
+			Set<String> personName = stateDictionary.keySet();
+			personName.stream().filter(person -> stateDictionary.get(person).equals(searchState))
+					.forEach(person -> System.out.println(person));
+		} else {
+			return;
+		}
+	}
+
 
 }
