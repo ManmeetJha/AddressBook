@@ -8,9 +8,17 @@ public class UserInterface2 {
 
 	public static HashMap<String, List<Address>> myDevice;
 
+	// K: Person, V: City
+	public static HashMap<String, String> cityDictionary;
+
+	// K: Person, V: State
+	public static HashMap<String, String> stateDictionary;
+
 	public static void main(String[] args) {
 
 		myDevice = new HashMap<>();
+		cityDictionary = new HashMap<>();
+		stateDictionary = new HashMap<>();
 
 		Scanner input = new Scanner(System.in);
 
@@ -21,7 +29,10 @@ public class UserInterface2 {
 			System.out.println("2. Add contact");
 			System.out.println("3. Edit contact");
 			System.out.println("4. Delete contact");
-			System.out.println("5. Exit");
+			System.out.println("5. Search in a city|state");
+			System.out.println("6. Search in a city|state Dictionary");
+			System.out.println("7. Number of contact personsin City or State");
+			System.out.println("8. Exit");
 
 			choice = input.nextInt();
 			switch (choice) {
@@ -41,10 +52,20 @@ public class UserInterface2 {
 				deleteContact(input);
 				printAddressBooks();
 				break;
+			case 5:
+				searchInCityState(input);
+				printAddressBooks();
+				break;
+			case 6:
+				//searchInCityStateUsingDictionary(input);
+				break;
+			case 7:
+				//countOfPersons(input);
+				break;
 			default:
 				break;
 			}
-		} while (choice != 5);
+		} while (choice != 8);
 
 	}
 
@@ -94,7 +115,10 @@ public class UserInterface2 {
 		Address newAddress = new Address(first_name, last_name, address, city, state, zip, phone_no, email);
 		addressBook.add(newAddress);
 		System.out.println("Address added successfully");
-		printAddressBooks();
+
+		cityDictionary.put(first_name + " " + last_name, city);
+		stateDictionary.put(first_name + " " + last_name, state);
+		// printAddressBooks();
 	}
 
 	public static void editAddress(Scanner input) {
@@ -178,6 +202,48 @@ public class UserInterface2 {
 			System.out.println(nameofaddbook + " " + myDevice.get(nameofaddbook).toString());
 		}
 
+	}
+
+	public static void searchInCityState(Scanner input) {
+		System.out.println("Search by city or state");
+		System.out.println("1. City");
+		System.out.println("2. State");
+		int choice = input.nextInt();
+
+		String searchCity, searchState;
+		Set<String> allAddressBooks = myDevice.keySet();
+
+		if (choice == 1) {
+			System.out.println("Enter city:");
+			searchCity = input.next();
+
+			for (String addressBookName : allAddressBooks) {
+				List<Address> addressBook = myDevice.get(addressBookName);
+				addressBook.stream().filter(currentAddress -> currentAddress.getCity().equals(searchCity))
+						.forEach(currentAddress -> System.out
+								.println(currentAddress.getFirst_name() + " " + currentAddress.getLast_name()));
+			}
+		}
+		if (choice == 2) {
+			System.out.println("Enter state:");
+			searchState = input.next();
+
+			for (String addressBookName : allAddressBooks) {
+				List<Address> addressBook = myDevice.get(addressBookName);
+				addressBook.stream().filter(currentAddress -> currentAddress.getState().equals(searchState))
+						.forEach(currentAddress -> System.out
+								.println(currentAddress.getFirst_name() + " " + currentAddress.getLast_name()));
+
+//				for (int i = 0; i < addressBook.size(); i++) {
+//					Address currentAddress = addressBook.get(i);
+//					if (currentAddress.getCity().equals(searchCity) || currentAddress.getState().equals(searchState)) {
+//						System.out.println(currentAddress.getFirst_name() + " " + currentAddress.getLast_name());
+//					}
+//				}
+			}
+		} else {
+			return;
+		}
 	}
 
 }
