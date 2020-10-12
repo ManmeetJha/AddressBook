@@ -60,7 +60,7 @@ public class UserInterface2 {
 				searchInCityStateUsingDictionary(input);
 				break;
 			case 7:
-				//countOfPersons(input);
+				countOfPersons(input);
 				break;
 			default:
 				break;
@@ -273,5 +273,33 @@ public class UserInterface2 {
 		}
 	}
 
+	public static void countOfPersons(Scanner input) {
+		System.out.println("Search by city or state");
+		System.out.println("1. City");
+		System.out.println("2. State");
+		int choice = input.nextInt();
+
+		String searchCity, searchState;
+		if (choice == 1) {
+			System.out.println("Enter city:");
+			searchCity = input.next();
+			// using dictionary
+			Set<String> personName = cityDictionary.keySet();
+			long count = personName.stream().filter(person -> cityDictionary.get(person).equals(searchCity)).count();
+			System.out.println("Number of persons: " + count);
+
+		}
+		if (choice == 2) {
+			System.out.println("Enter state:");
+			searchState = input.next();
+			// using dictionary
+			Set<String> personName = stateDictionary.keySet();
+			long count = personName.stream().filter(person -> stateDictionary.get(person).equals(searchState)).count();
+			System.out.println("Number of persons: " + count);
+		} else {
+			return;
+		}
+
+	}
 
 }
