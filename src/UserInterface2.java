@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -32,7 +34,8 @@ public class UserInterface2 {
 			System.out.println("5. Search in a city|state");
 			System.out.println("6. Search in a city|state Dictionary");
 			System.out.println("7. Number of contact personsin City or State");
-			System.out.println("8. Exit");
+			System.out.println("8. Sort Address List based on Person Name");
+			System.out.println("9. Exit");
 
 			choice = input.nextInt();
 			switch (choice) {
@@ -62,11 +65,36 @@ public class UserInterface2 {
 			case 7:
 				countOfPersons(input);
 				break;
+			case 8:
+				sortBasedOnName(input);
+				break;
 			default:
 				break;
 			}
-		} while (choice != 8);
+		} while (choice != 9);
 
+	}
+
+	private static void sortBasedOnName(Scanner input) {
+		Set<String> addressBookNames = myDevice.keySet();
+		for(String addressBook : addressBookNames) {
+			List<Address> addresses = myDevice.get(addressBook);
+			System.out.println("Before sorting");
+			System.out.println(addresses.toString());
+			Collections.sort(addresses, new Comparator<Address>() {
+
+				@Override
+				public int compare(Address address1, Address address2) {
+					if(!address1.getFirst_name().equals(address2.getFirst_name())){
+						return address1.getFirst_name().compareTo(address2.getFirst_name());
+					}
+					return address1.getLast_name().compareTo(address2.getLast_name());
+				}
+			});
+			
+			System.out.println("After sorting");
+			System.out.println(addresses.toString());
+		}
 	}
 
 	private static void addAddressBook(Scanner input) {
