@@ -35,7 +35,8 @@ public class UserInterface2 {
 			System.out.println("6. Search in a city|state Dictionary");
 			System.out.println("7. Number of contact personsin City or State");
 			System.out.println("8. Sort Address List based on Person Name");
-			System.out.println("9. Exit");
+			System.out.println("9. Sort Address List based on City, State or Zip");
+			System.out.println("10. Exit");
 
 			choice = input.nextInt();
 			switch (choice) {
@@ -68,16 +69,92 @@ public class UserInterface2 {
 			case 8:
 				sortBasedOnName(input);
 				break;
+			case 9:
+				sortBasedOnCityStateZip(input);
+				break;
 			default:
 				break;
 			}
-		} while (choice != 9);
+		} while (choice != 10);
+
+	}
+
+	private static void sortBasedOnCityStateZip(Scanner input) {
+		System.out.println("Enter the choice on which address to be sorted");
+		System.out.println("1.City");
+		System.out.println("2.State");
+		System.out.println("3.Zip");
+		int choice = input.nextInt();
+
+		if (choice == 1) {
+			Set<String> addressBookNames = myDevice.keySet();
+			for (String addressBook : addressBookNames) {
+				List<Address> addresses = myDevice.get(addressBook);
+				System.out.println("Before sorting City");
+				System.out.println(addresses.toString());
+				Collections.sort(addresses, new Comparator<Address>() {
+
+					@Override
+					public int compare(Address address1, Address address2) {
+						if (!address1.getCity().equals(address2.getCity())) {
+							return address1.getCity().compareTo(address2.getCity());
+						}
+						return address1.getCity().compareTo(address2.getCity());
+					}
+				});
+
+				System.out.println("After sorting city");
+				System.out.println(addresses.toString());
+			}
+		}
+		if (choice == 2) {
+			Set<String> addressBookNames = myDevice.keySet();
+			for (String addressBook : addressBookNames) {
+				List<Address> addresses = myDevice.get(addressBook);
+				System.out.println("Before sorting State");
+				System.out.println(addresses.toString());
+				Collections.sort(addresses, new Comparator<Address>() {
+
+					@Override
+					public int compare(Address address1, Address address2) {
+						if (!address1.getState().equals(address2.getState())) {
+							return address1.getState().compareTo(address2.getState());
+						}
+						return address1.getState().compareTo(address2.getState());
+					}
+				});
+
+				System.out.println("After sorting State");
+				System.out.println(addresses.toString());
+			}
+		}
+		if (choice == 3) {
+			Set<String> addressBookNames = myDevice.keySet();
+			for (String addressBook : addressBookNames) {
+				List<Address> addresses = myDevice.get(addressBook);
+				System.out.println("Before sorting Zip");
+				System.out.println(addresses.toString());
+				Collections.sort(addresses, new Comparator<Address>() {
+
+					@Override
+					public int compare(Address address1, Address address2) {
+						if (!address1.getZip().equals(address2.getZip())) {
+							return address1.getZip().compareTo(address2.getZip());
+						}
+						return address1.getZip().compareTo(address2.getZip());
+					}
+				});
+
+				System.out.println("After sorting Zip");
+				System.out.println(addresses.toString());
+			}
+		}
 
 	}
 
 	private static void sortBasedOnName(Scanner input) {
 		Set<String> addressBookNames = myDevice.keySet();
-		for(String addressBook : addressBookNames) {
+		for (String addressBook : addressBookNames) {
 			List<Address> addresses = myDevice.get(addressBook);
 			System.out.println("Before sorting");
 			System.out.println(addresses.toString());
@@ -85,13 +162,13 @@ public class UserInterface2 {
 
 				@Override
 				public int compare(Address address1, Address address2) {
-					if(!address1.getFirst_name().equals(address2.getFirst_name())){
+					if (!address1.getFirst_name().equals(address2.getFirst_name())) {
 						return address1.getFirst_name().compareTo(address2.getFirst_name());
 					}
 					return address1.getLast_name().compareTo(address2.getLast_name());
 				}
 			});
-			
+
 			System.out.println("After sorting");
 			System.out.println(addresses.toString());
 		}
