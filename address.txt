@@ -1,0 +1,15 @@
+======Addresses in my device======
+Address Book Name: Book 1
+Address [First_name=a, Last_name=a, Address=a, City=a, State=a, Zip=a, Phone_no=a, Email=a]
+Address [First_name=b, Last_name=b, Address=b, City=b, State=b, Zip=b, Phone_no=b, Email=b]
+
+
+Address Book Name: Book 2
+Address [First_name=c, Last_name=c, Address=c, City=c, State=c, Zip=c, Phone_no=c, Email=c]
+Address [First_name=d, Last_name=d, Address=d, City=d, State=d, Zip=d, Phone_no=d, Email=d]
+
+
+Address Book Name: Book 3
+Address [First_name=e, Last_name=e, Address=e, City=e, State=e, Zip=e, Phone_no=e, Email=e]
+
+
