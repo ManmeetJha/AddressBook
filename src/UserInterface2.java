@@ -1,13 +1,10 @@
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.OpencsvUtils;
 import sun.rmi.runtime.Log;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class UserInterface2 {
 
@@ -477,19 +474,43 @@ public class UserInterface2 {
         bufferedReader.close();
     }
 
-    public static void writeToCSVFile() {
+    public static void writeToCSVFile() throws IOException {
+        String filePath = System.getProperty("user.dir") + "/addressCSV.csv";
+        System.out.println("Path of file: " + filePath);
+        File addressCSVFile = new File(filePath);
+        if (!addressCSVFile.exists()) {
+            addressCSVFile.createNewFile();
+        }
+        FileWriter writer = new FileWriter(addressCSVFile);
+        CSVWriter csvwriter = new CSVWriter(writer);
+        String[] header = {"Address Book Name", "First_name", "Last_name", "Address", "City", "State", "Zip", "Phone_no", "Email"};
+        csvwriter.writeNext(header);
+        Set<String> namesOfAddBooks = myDevice.keySet();
+        for (String nameofaddbook : namesOfAddBooks) {
+            List<Address> addresses = myDevice.get(nameofaddbook);
+            for (Address address : addresses)
+                csvwriter.writeNext(new String[]{nameofaddbook, address.getFirst_name(),address.getLast_name(),
+                address.getAddress(),address.getCity(),address.getState(),address.getZip(), address.getPhone_no(), address.getEmail()});
+        }
+        csvwriter.close();
+    }
+
+    public static void readFromCSVFile() throws IOException {
+        String filePath = System.getProperty("user.dir") + "/addressCSV.csv";
+        CSVReader reader = new CSVReader(new FileReader(filePath));
+        String[] currentLine;
+        while( (currentLine = reader.readNext()) != null){
+            System.out.println(Arrays.toString(currentLine));
+        }
+        reader.close();
+    }
+
+
+    public static void writeToJSONFile() {
 
     }
 
-    public static void readFromCSVFile() {
-
-    }
-
-    public static void writeToJSONFile(){
-
-    }
-
-    public static void readFromJSONFile(){
+    public static void readFromJSONFile() {
 
     }
 
