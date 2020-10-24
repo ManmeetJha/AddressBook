@@ -1,6 +1,12 @@
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.OpencsvUtils;
+import jdk.nashorn.internal.parser.JSONParser;
 import sun.rmi.runtime.Log;
 
 import java.io.*;
@@ -22,7 +28,7 @@ public class UserInterface2 {
         cityDictionary = new HashMap<>();
         stateDictionary = new HashMap<>();
 
-        //if want a ready-made device
+        //ready-made device
         initialize();
 
         Scanner input = new Scanner(System.in);
@@ -489,8 +495,8 @@ public class UserInterface2 {
         for (String nameofaddbook : namesOfAddBooks) {
             List<Address> addresses = myDevice.get(nameofaddbook);
             for (Address address : addresses)
-                csvwriter.writeNext(new String[]{nameofaddbook, address.getFirst_name(),address.getLast_name(),
-                address.getAddress(),address.getCity(),address.getState(),address.getZip(), address.getPhone_no(), address.getEmail()});
+                csvwriter.writeNext(new String[]{nameofaddbook, address.getFirst_name(), address.getLast_name(),
+                        address.getAddress(), address.getCity(), address.getState(), address.getZip(), address.getPhone_no(), address.getEmail()});
         }
         csvwriter.close();
     }
@@ -499,18 +505,38 @@ public class UserInterface2 {
         String filePath = System.getProperty("user.dir") + "/addressCSV.csv";
         CSVReader reader = new CSVReader(new FileReader(filePath));
         String[] currentLine;
-        while( (currentLine = reader.readNext()) != null){
+        while ((currentLine = reader.readNext()) != null) {
             System.out.println(Arrays.toString(currentLine));
         }
         reader.close();
     }
 
 
-    public static void writeToJSONFile() {
-
+    public static void writeToJSONFile() throws IOException {
+        String filePath = System.getProperty("user.dir") + "/addressJSON.json";
+        File addressJSONFile = new File(filePath);
+        if (!addressJSONFile.exists()) {
+            addressJSONFile.createNewFile();
+        }
+        FileWriter writer = new FileWriter(addressJSONFile);
+        Gson gson = new Gson();
+        gson.toJson(myDevice, writer);
+        writer.close();
     }
 
-    public static void readFromJSONFile() {
+    public static void readFromJSONFile() throws IOException {
+        String filePath = System.getProperty("user.dir") + "/addressJSON.json";
+        FileReader reader = new FileReader(filePath);
+        JsonParser jsonParser = new JsonParser();
+        Object obj = jsonParser.parse(reader);
+
+        JsonObject myDeviceObj = (JsonObject) obj;
+        Set<Map.Entry<String, JsonElement>> entrySet = myDeviceObj.entrySet();
+        for (Map.Entry entry : entrySet) {
+            System.out.println("Address Book Name: " + entry.getKey());
+            System.out.println(entry.getValue());
+        }
+
 
     }
 
